@@ -29,6 +29,34 @@ const tools = [
     icon: "JWT",
     tags: ["Decode", "Security", "Auth"],
   },
+  {
+    name: "Base64 Encoder & Decoder",
+    description: "Encode text to Base64 or decode Base64 to text.",
+    href: "/tools/base64-encoder",
+    icon: "B64",
+    tags: ["Encode", "Decode", "Base64"],
+  },
+  {
+    name: "URL Encoder & Decoder",
+    description: "Encode or decode URLs and query parameters.",
+    href: "/tools/url-encoder",
+    icon: "%20",
+    tags: ["URL", "Encode", "Decode"],
+  },
+  {
+    name: "UUID Generator",
+    description: "Generate random UUID v4 identifiers in bulk.",
+    href: "/tools/uuid-generator",
+    icon: "ID",
+    tags: ["UUID", "Generate", "Random"],
+  },
+  {
+    name: "Hash Generator",
+    description: "Generate MD5, SHA-1, SHA-256, SHA-512 hashes.",
+    href: "/tools/hash-generator",
+    icon: "#",
+    tags: ["MD5", "SHA-256", "Hash"],
+  },
 ];
 
 export default function Home() {
