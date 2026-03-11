@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     "online tools",
     "free tools",
   ],
+  verification: {
+    google: "zgZ6kfdiCJaKCbzEjz3h5cVAaRPRJH-zIMgvFOCh6Fk",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
