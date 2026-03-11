@@ -140,6 +140,23 @@ console.log(message);`);
         </Card>
       )}
 
+      {/* Related Tools */}
+      <section className="py-6">
+        <h2 className="text-sm font-semibold text-muted-foreground mb-3">Related Tools</h2>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { name: "JSON Formatter", href: "/tools/json-formatter" },
+            { name: "Regex Tester", href: "/tools/regex-tester" },
+            { name: "SQL Formatter", href: "/tools/sql-formatter" },
+            { name: "Markdown Preview", href: "/tools/markdown-preview" },
+          ].map((tool) => (
+            <a key={tool.href} href={tool.href} className="text-xs px-3 py-1.5 rounded-md bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-colors">
+              {tool.name}
+            </a>
+          ))}
+        </div>
+      </section>
+
       {/* SEO Content */}
       <section className="space-y-4 py-8 border-t">
         <Tabs defaultValue="what">

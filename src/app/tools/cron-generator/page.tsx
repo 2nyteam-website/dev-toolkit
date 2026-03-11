@@ -476,6 +476,23 @@ export default function CronGeneratorPage() {
         </Card>
       </div>
 
+      {/* Related Tools */}
+      <section className="py-6">
+        <h2 className="text-sm font-semibold text-muted-foreground mb-3">Related Tools</h2>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { name: "Timestamp Converter", href: "/tools/timestamp-converter" },
+            { name: "Regex Tester", href: "/tools/regex-tester" },
+            { name: "UUID Generator", href: "/tools/uuid-generator" },
+            { name: "SQL Formatter", href: "/tools/sql-formatter" },
+          ].map((tool) => (
+            <a key={tool.href} href={tool.href} className="text-xs px-3 py-1.5 rounded-md bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-colors">
+              {tool.name}
+            </a>
+          ))}
+        </div>
+      </section>
+
       <section className="space-y-4 py-8 border-t">
         <Tabs defaultValue="what">
           <TabsList>
