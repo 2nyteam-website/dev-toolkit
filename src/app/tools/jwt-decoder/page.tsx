@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -77,6 +77,17 @@ export default function JwtDecoderPage() {
     }
   }, [input]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        decode();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [decode]);
+
   const copySection = async (section: string, data: unknown) => {
     await navigator.clipboard.writeText(JSON.stringify(data, null, 2));
     setCopied(section);
@@ -141,6 +152,7 @@ export default function JwtDecoderPage() {
       </Card>
 
       <Button size="lg" onClick={decode}>Decode</Button>
+      <span className="text-xs text-muted-foreground ml-2">Ctrl+Enter</span>
 
       {/* Error */}
       {error && (

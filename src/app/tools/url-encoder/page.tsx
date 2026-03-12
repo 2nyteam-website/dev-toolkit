@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -63,6 +63,18 @@ export default function UrlEncoderPage() {
       setOutput("");
     }
   }, [input]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        if (mode === "encode") encode();
+        else decode();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [mode, encode, decode]);
 
   const copyToClipboard = useCallback(async () => {
     if (!output) return;
@@ -174,7 +186,7 @@ export default function UrlEncoderPage() {
         </Card>
       </div>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         {mode === "encode" ? (
           <>
             <Button size="lg" onClick={encode}>
@@ -189,6 +201,7 @@ export default function UrlEncoderPage() {
             Decode URL
           </Button>
         )}
+        <span className="text-xs text-muted-foreground ml-2">Ctrl+Enter</span>
       </div>
 
       {/* Related Tools */}

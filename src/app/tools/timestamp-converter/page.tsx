@@ -117,6 +117,18 @@ export default function TimestampConverterPage() {
     }
   }, [dateInput]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        if (mode === "toDate") convertTimestampToDate();
+        else convertDateToTimestamp();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [mode, convertTimestampToDate, convertDateToTimestamp]);
+
   const copyToClipboard = useCallback(async (text: string, label: string) => {
     await navigator.clipboard.writeText(text);
     setCopied(label);
@@ -229,7 +241,10 @@ export default function TimestampConverterPage() {
               <p className="text-xs text-muted-foreground">
                 Auto-detects seconds vs milliseconds
               </p>
-              <Button onClick={convertTimestampToDate}>Convert</Button>
+              <div className="flex items-center gap-2">
+                <Button onClick={convertTimestampToDate}>Convert</Button>
+                <span className="text-xs text-muted-foreground">Ctrl+Enter</span>
+              </div>
             </CardContent>
           </Card>
 
@@ -289,7 +304,10 @@ export default function TimestampConverterPage() {
               <p className="text-xs text-muted-foreground">
                 Supports ISO 8601, RFC 2822, or any format parseable by JavaScript Date
               </p>
-              <Button onClick={convertDateToTimestamp}>Convert</Button>
+              <div className="flex items-center gap-2">
+                <Button onClick={convertDateToTimestamp}>Convert</Button>
+                <span className="text-xs text-muted-foreground">Ctrl+Enter</span>
+              </div>
             </CardContent>
           </Card>
 

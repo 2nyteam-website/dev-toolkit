@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -496,6 +496,17 @@ export default function SqlFormatterPage() {
     }
   }, [input, uppercaseKeywords]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        format();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [format]);
+
   const copyToClipboard = useCallback(async () => {
     if (!output) return;
     await navigator.clipboard.writeText(output);
@@ -592,6 +603,7 @@ export default function SqlFormatterPage() {
         <Button size="lg" onClick={format}>
           Format SQL
         </Button>
+        <span className="text-xs text-muted-foreground ml-2">Ctrl+Enter</span>
         <Button size="lg" variant="secondary" onClick={minify}>
           Minify SQL
         </Button>

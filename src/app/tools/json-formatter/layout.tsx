@@ -15,6 +15,30 @@ export const metadata: Metadata = {
   ],
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "JSON Formatter & Validator",
+  description:
+    "Format, validate, and minify JSON data instantly. 100% client-side processing — your data never leaves your browser. Free, no sign-up required.",
+  url: "https://www.devtoolkit.cc/tools/json-formatter",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Any",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+};
+
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

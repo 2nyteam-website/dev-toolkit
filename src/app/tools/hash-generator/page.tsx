@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -132,6 +132,17 @@ export default function HashGeneratorPage() {
     });
   }, [input]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        generate();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [generate]);
+
   const copyHash = async (name: string, value: string) => {
     await navigator.clipboard.writeText(value);
     setCopied(name);
@@ -189,6 +200,7 @@ export default function HashGeneratorPage() {
       <Button size="lg" onClick={generate}>
         Generate Hashes
       </Button>
+      <span className="text-xs text-muted-foreground ml-2">Ctrl+Enter</span>
 
       {hashes && (
         <Card>

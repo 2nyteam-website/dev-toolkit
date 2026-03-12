@@ -15,6 +15,30 @@ export const metadata: Metadata = {
   ],
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Timestamp Converter",
+  description:
+    "Convert Unix timestamps to human-readable dates and vice versa. Supports seconds, milliseconds, ISO 8601, and relative time. 100% client-side processing.",
+  url: "https://www.devtoolkit.cc/tools/timestamp-converter",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Any",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+};
+
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

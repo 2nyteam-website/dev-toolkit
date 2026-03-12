@@ -14,6 +14,30 @@ export const metadata: Metadata = {
   ],
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "URL Encoder & Decoder",
+  description:
+    "Encode and decode URLs and query strings instantly. 100% client-side — your data never leaves your browser.",
+  url: "https://www.devtoolkit.cc/tools/url-encoder",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Any",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+};
+
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

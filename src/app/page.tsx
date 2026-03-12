@@ -115,9 +115,42 @@ const tools = [
   },
 ];
 
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "DevToolKit",
+  url: "https://www.devtoolkit.cc",
+  description: "Free online developer tools that run 100% in your browser.",
+};
+
+const itemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Free Developer Tools",
+  description: "Free online developer tools that run 100% in your browser.",
+  url: "https://www.devtoolkit.cc",
+  numberOfItems: tools.length,
+  itemListElement: tools.map((tool, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: tool.name,
+    description: tool.description,
+    url: `https://www.devtoolkit.cc${tool.href}`,
+  })),
+};
+
 export default function Home() {
   return (
-    <div className="space-y-8">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
+      <div className="space-y-8">
       {/* Hero */}
       <section className="text-center py-12 space-y-4">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
@@ -176,6 +209,7 @@ export default function Home() {
           cookies, no tracking of your input data.
         </p>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

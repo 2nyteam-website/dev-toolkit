@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -338,6 +338,17 @@ export default function JsonToYamlPage() {
     }
   }, [input, mode]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        convert();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [convert]);
+
   const copyToClipboard = useCallback(async () => {
     if (!output) return;
     await navigator.clipboard.writeText(output);
@@ -465,10 +476,11 @@ export default function JsonToYamlPage() {
         </Card>
       </div>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <Button size="lg" onClick={convert}>
           {mode === "jsonToYaml" ? "Convert to YAML" : "Convert to JSON"}
         </Button>
+        <span className="text-xs text-muted-foreground ml-2">Ctrl+Enter</span>
         <Button size="lg" variant="secondary" onClick={loadSample}>
           Sample
         </Button>

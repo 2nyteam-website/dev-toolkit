@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { diffLines, type Change } from "diff";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,6 +22,17 @@ export default function DiffCheckerPage() {
       removed: changes.filter((c) => c.removed).length,
     });
   }, [left, right]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        compareDiff();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [compareDiff]);
 
   const clearAll = () => {
     setLeft("");
@@ -96,6 +107,7 @@ console.log(message);`);
         <Button size="lg" onClick={compareDiff}>
           Compare
         </Button>
+        <span className="text-xs text-muted-foreground ml-2">Ctrl+Enter</span>
         <Button size="lg" variant="secondary" onClick={loadSample}>
           Load Sample
         </Button>

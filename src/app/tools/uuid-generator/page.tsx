@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -27,6 +27,17 @@ export default function UuidGeneratorPage() {
     });
     setUuids(newUuids);
   }, [count, uppercase, noDashes]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        generate();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [generate]);
 
   const copyAll = useCallback(async () => {
     if (uuids.length === 0) return;
@@ -96,10 +107,11 @@ export default function UuidGeneratorPage() {
         </CardContent>
       </Card>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <Button size="lg" onClick={generate}>
           Generate UUID{count > 1 ? "s" : ""}
         </Button>
+        <span className="text-xs text-muted-foreground ml-2">Ctrl+Enter</span>
         <Button
           size="lg"
           variant="secondary"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -48,6 +48,17 @@ export default function Base64EncoderPage() {
     if (mode === "encode") encode();
     else decode();
   }, [mode, encode, decode]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        handleAction();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleAction]);
 
   const copyToClipboard = useCallback(async () => {
     if (!output) return;
@@ -164,6 +175,7 @@ export default function Base64EncoderPage() {
         <Button size="lg" onClick={handleAction}>
           {mode === "encode" ? "Encode to Base64" : "Decode from Base64"}
         </Button>
+        <span className="text-xs text-muted-foreground ml-2">Ctrl+Enter</span>
         <Button size="lg" variant="secondary" onClick={swap} disabled={!output}>
           Swap (Use Output as Input)
         </Button>

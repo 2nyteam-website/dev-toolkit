@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -62,6 +62,17 @@ export default function JsonFormatterPage() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }, [output]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        formatJson(2);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [formatJson]);
 
   const loadSample = () => {
     const sample = JSON.stringify(
@@ -163,6 +174,7 @@ export default function JsonFormatterPage() {
         <Button size="lg" onClick={() => formatJson(2)}>
           Format (2 spaces)
         </Button>
+        <span className="text-xs text-muted-foreground ml-2">Ctrl+Enter</span>
         <Button size="lg" variant="secondary" onClick={() => formatJson(4)}>
           Format (4 spaces)
         </Button>
