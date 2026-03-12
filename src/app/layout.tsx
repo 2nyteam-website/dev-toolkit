@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import NavDropdown from "@/components/nav-dropdown";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -38,12 +39,6 @@ export const metadata: Metadata = {
   },
 };
 
-const tools = [
-  { name: "JSON Formatter", href: "/tools/json-formatter", emoji: "{}" },
-  { name: "Diff Checker", href: "/tools/diff-checker", emoji: "<>" },
-  { name: "JWT Decoder", href: "/tools/jwt-decoder", emoji: "🔑" },
-];
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -73,15 +68,7 @@ gtag('config', 'G-C3EYXY2XCX');`,
               <span className="text-muted-foreground">ToolKit</span>
             </Link>
             <nav className="hidden md:flex items-center gap-4 text-sm">
-              {tools.map((tool) => (
-                <Link
-                  key={tool.href}
-                  href={tool.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {tool.name}
-                </Link>
-              ))}
+              <NavDropdown />
             </nav>
           </div>
         </header>
