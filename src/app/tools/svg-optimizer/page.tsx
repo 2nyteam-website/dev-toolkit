@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
+import DOMPurify from "dompurify";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -152,6 +153,16 @@ export default function SvgOptimizerPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const sanitizedInput = useMemo(() => {
+    if (!input) return "";
+    return DOMPurify.sanitize(input, { USE_PROFILES: { svg: true, svgFilters: true } });
+  }, [input]);
+
+  const sanitizedOutput = useMemo(() => {
+    if (!output) return "";
+    return DOMPurify.sanitize(output, { USE_PROFILES: { svg: true, svgFilters: true } });
+  }, [output]);
+
   const originalSize = new Blob([input]).size;
   const optimizedSize = new Blob([output]).size;
   const savings = originalSize > 0 ? Math.round(((originalSize - optimizedSize) / originalSize) * 100) : 0;
@@ -273,15 +284,15 @@ export default function SvgOptimizerPage() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-center bg-muted rounded-md p-8 min-h-[160px]">
-              {previewTab === "original" && input ? (
+              {previewTab === "original" && sanitizedInput ? (
                 <div
                   className="max-w-full max-h-40"
-                  dangerouslySetInnerHTML={{ __html: input }}
+                  dangerouslySetInnerHTML={{ __html: sanitizedInput }}
                 />
-              ) : previewTab === "optimized" && output ? (
+              ) : previewTab === "optimized" && sanitizedOutput ? (
                 <div
                   className="max-w-full max-h-40"
-                  dangerouslySetInnerHTML={{ __html: output }}
+                  dangerouslySetInnerHTML={{ __html: sanitizedOutput }}
                 />
               ) : (
                 <span className="text-muted-foreground text-sm">No preview available</span>
@@ -366,17 +377,6 @@ export default function SvgOptimizerPage() {
           </TabsContent>
         </Tabs>
       </section>
-
-      {/* Support */}
-      <div className="mt-8 text-center py-6 border rounded-lg bg-card">
-        <p className="text-muted-foreground text-sm">
-          Enjoying this tool?{" "}
-          <a href="https://buymeacoffee.com/devtoolkit" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-            ☕ Buy me a coffee
-          </a>
-          {" "} to support free tools!
-        </p>
-      </div>
     </div>
   );
 }

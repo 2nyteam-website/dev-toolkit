@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
+import DOMPurify from "dompurify";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -208,13 +209,10 @@ function markdownToHtml(md: string): string {
 }
 
 function sanitizeHtml(html: string): string {
-  // Remove script tags
-  let clean = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
-  // Remove event handlers
-  clean = clean.replace(/\s+on\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]*)/gi, "");
-  // Remove javascript: URLs
-  clean = clean.replace(/href\s*=\s*["']javascript:[^"']*["']/gi, 'href="#"');
-  return clean;
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: ["h1","h2","h3","h4","h5","h6","p","a","strong","em","del","code","pre","ul","ol","li","table","thead","tbody","tr","th","td","blockquote","hr","br","img","mark","span","div"],
+    ALLOWED_ATTR: ["href","target","rel","class","style","src","alt"],
+  });
 }
 
 // ---
@@ -489,17 +487,6 @@ export default function MarkdownPreviewPage() {
           </TabsContent>
         </Tabs>
       </section>
-
-      {/* Support */}
-      <div className="mt-8 text-center py-6 border rounded-lg bg-card">
-        <p className="text-muted-foreground text-sm">
-          Enjoying this tool?{" "}
-          <a href="https://buymeacoffee.com/devtoolkit" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-            ☕ Buy me a coffee
-          </a>
-          {" "} to support free tools!
-        </p>
-      </div>
     </div>
   );
 }
