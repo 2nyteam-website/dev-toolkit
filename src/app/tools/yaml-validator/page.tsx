@@ -170,7 +170,7 @@ export default function YamlValidatorPage() {
   const [input, setInput] = useState("");
   const [result, setResult] = useState<{ success: true; json: string } | { success: false; error: string; line?: number } | null>(null);
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<"validate" | "json">("validate");
+
 
   const validate = useCallback(() => {
     if (!input.trim()) {

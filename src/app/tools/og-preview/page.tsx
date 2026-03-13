@@ -17,7 +17,7 @@ interface OGData {
 const SAMPLE: OGData = {
   title: "DevToolkit — Free Developer Tools Online",
   description:
-    "100+ free developer tools: JSON formatter, diff checker, JWT decoder, hash generator and more. No login required, 100% client-side.",
+    "25+ free developer tools: JSON formatter, diff checker, JWT decoder, hash generator and more. No login required, 100% client-side.",
   imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop",
   url: "https://www.devtoolkit.cc",
   siteName: "DevToolkit",
