@@ -51,7 +51,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <Script
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1991356352462955"
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2080535898067346"
         strategy="afterInteractive"
         crossOrigin="anonymous"
       />
